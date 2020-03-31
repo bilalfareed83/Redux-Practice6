@@ -1,26 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { connect } from 'react-redux';
+import authMiddleware from './store/middleware/authMiddleware';
+import postMiddleware from './store/middleware/postMiddleware';
 
-function App() {
+const App = props => {
+  console.log(props.post);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>Redux Middleware</h2>
+      <button onClick={props.userLogin}>Fetch data</button>
+      <button onClick={props.userPost}>Fetch post</button>
     </div>
   );
-}
+};
 
-export default App;
+const mapStateToProps = state => {
+  return state;
+};
+
+const mapDispatchToProps = dispatch => ({
+  userLogin: () => {
+    dispatch(authMiddleware.userLoginMiddleware());
+  },
+  userPost: () => {
+    dispatch(postMiddleware.userPostMiddleware());
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
